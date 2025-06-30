@@ -1,0 +1,66 @@
+import cv2
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_predictions
+
+# Load pre-trained MobileNetV2 model
+model = MobileNetV2(weights='imagenet')
+IMG_SIZE = 224
+
+# Auto-detect working webcam
+def open_camera():
+    for index in range(3):  # Try camera index 0, 1, 2
+        cap = cv2.VideoCapture(index)
+        if cap.isOpened():
+            print(f"✅ Camera opened at index {index}. Press 'q' to quit.")
+            return cap
+        cap.release()
+    print("❌ No camera found.")
+    exit()
+
+cap = open_camera()
+
+# Main loop
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        print("❌ Failed to read frame.")
+        break
+
+    # Resize and preprocess
+    img = cv2.resize(frame, (IMG_SIZE, IMG_SIZE))
+    img_array = tf.keras.preprocessing.image.img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0)
+    img_array = preprocess_input(img_array)
+
+    # Predict using MobileNetV2
+    predictions = model.predict(img_array)
+    decoded = decode_predictions(predictions, top=1)[0][0]
+    label = decoded[1].lower()
+
+    # Check for material
+    if "glass" in label:
+        result = "GLASS"
+        color = (0, 255, 0)
+    elif "plastic" in label:
+        result = "PLASTIC"
+        color = (255, 255, 0)
+    elif "paper" in label or "envelope" in label:
+        result = "PAPER"
+        color = (255, 0, 0)
+    else:
+        result = "UNKNOWN"
+        color = (0, 0, 255)
+
+    # Display result
+    cv2.putText(frame, f"Detected: {result}", (10, 40),
+                cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
+    cv2.imshow("Material Detector", frame)
+
+    # Press 'q' to exit
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
+
+cap.release()
+cv2.destroyAllWindows()

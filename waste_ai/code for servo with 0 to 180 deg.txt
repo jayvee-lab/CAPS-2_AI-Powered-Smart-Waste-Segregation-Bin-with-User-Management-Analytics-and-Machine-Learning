@@ -1,0 +1,33 @@
+#include <Stepper.h>
+
+const int stepsPerRevolution = 2048;
+Stepper myStepper(stepsPerRevolution, 8, 10, 9, 11);  // IN1-IN4 to Arduino pins
+
+void setup() {
+  Serial.begin(9600);
+  myStepper.setSpeed(10);
+}
+
+void loop() {
+  if (Serial.available()) {
+    char command = Serial.read();
+
+    if (command == 'g') {       // GLASS
+      rotateTo(0);
+    } else if (command == 'p') { // PLASTIC
+      rotateTo(90);
+    } else if (command == 'a') { // PAPER
+      rotateTo(180);
+    }
+  }
+}
+
+void rotateTo(int angle) {
+  int steps = map(angle, 0, 360, 0, stepsPerRevolution);
+  myStepper.step(steps);
+  delay(2000);  // wait 2 seconds
+  myStepper.step(-steps);  // return to start     gggggg
+}
+
+
+
