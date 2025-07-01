@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login | Monitoring System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right top, #e0f2fe, #fef3c7);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+      transition: all 0.4s ease;
+    }
+
+    .glass-card:hover {
+      transform: scale(1.01);
+    }
+
+    .glass-white-button {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #1f2937;
+      transition: all 0.3s ease;
+    }
+
+    .glass-white-button:hover {
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center px-6 py-12">
+
+  <div class="flex flex-col lg:flex-row w-full max-w-5xl rounded-3xl overflow-hidden glass-card">
+
+    <div class="lg:w-1/2 hidden lg:flex flex-col justify-center items-center bg-white bg-opacity-30 p-10">
+      <img src="rs/logo.png" alt="Logo" class="w-24 h-24 mb-6 rounded-full bg-white p-2 shadow-lg" />
+      <h1 class="text-3xl font-semibold text-gray-800 text-center leading-relaxed">
+        Plastic, Glass, and Paper<br />Monitoring System
+      </h1>
+      <p class="text-sm text-gray-700 mt-4 text-center max-w-xs">
+        Monitor recyclable materials efficiently and securely with the admin dashboard.
+      </p>
+    </div>
+
+    <div class="w-full lg:w-1/2 flex items-center justify-center bg-white bg-opacity-40 p-10">
+      <div class="w-full max-w-md">
+        <div class="mb-8 text-center">
+          <h2 class="text-3xl font-bold text-gray-900">Admin Login</h2>
+          <p class="text-sm text-gray-600">Enter your credentials to access the system</p>
+        </div>
+<form action="Login.php" method="POST" class="space-y-6">
+  <div>
+    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+    <input type="text" id="username" name="username" required
+      class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-xl bg-gray-50" />
+  </div>
+  <div>
+    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+    <input type="password" id="password" name="password" required
+      class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-xl bg-gray-50" />
+  </div>
+  <button type="submit"
+    class="glass-white-button w-full py-3 rounded-xl font-semibold text-center shadow-md text-lg">
+    Login
+  </button>
+</form>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
